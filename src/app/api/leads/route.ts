@@ -11,11 +11,9 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const user = session.user;
-
   const leads = await prisma.lead.findMany({
     where: {
-      companyId: user.id,
+      companyId: session.user.companyId,
     },
     orderBy: {
       createdAt: "desc",
@@ -32,7 +30,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const user = session.user;
   const data = await request.json();
 
   if (!data.firstName || !data.lastName) {
@@ -53,7 +50,11 @@ export async function POST(request: Request) {
       source: data.source || null,
       value: data.value ? Number(data.value) : null,
       notes: data.notes || null,
-      companyId: user.id,
+      company: {
+        connect: {
+          id: session.user.companyId,
+        },
+      },
     },
   });
 

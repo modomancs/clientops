@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-
 import { authOptions } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import CreateLeadForm from "@/components/create-lead-form";
@@ -26,7 +25,7 @@ export default async function LeadsPage() {
 
   const leads: Lead[] = await prisma.lead.findMany({
     where: {
-      companyId: session.user.id,
+      companyId: session.user.companyId,
     },
     orderBy: {
       createdAt: "desc",
@@ -90,13 +89,41 @@ export default async function LeadsPage() {
                       {lead.email || "-"}
                     </td>
                     <td className="px-6 py-4 text-sm text-slate-600">
-                      <span
-                        className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${getLeadStatusStyles(
-                          lead.status,
-                        )}`}
-                      >
-                        {formatLeadStatus(lead.status)}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${getLeadStatusStyles(
+                            lead.status,
+                          )}`}
+                        >
+                          {formatLeadStatus(lead.status)}
+                        </span>
+
+                        <form
+                          action={`/api/leads/${lead.id}`}
+                          method="POST"
+                          className="flex items-center gap-2"
+                        >
+                          <select
+                            name="status"
+                            defaultValue={lead.status}
+                            className="rounded-lg border border-slate-300 px-2 py-1 text-sm"
+                          >
+                            <option value="NEW">New</option>
+                            <option value="CONTACTED">Contacted</option>
+                            <option value="QUALIFIED">Qualified</option>
+                            <option value="PROPOSAL_SENT">Proposal Sent</option>
+                            <option value="WON">Won</option>
+                            <option value="LOST">Lost</option>
+                          </select>
+
+                          <button
+                            type="submit"
+                            className="rounded-lg bg-slate-900 px-2 py-1 text-xs text-white"
+                          >
+                            Save
+                          </button>
+                        </form>
+                      </div>
                     </td>
                     <td className="px-6 py-4 text-sm text-slate-600">
                       {lead.value ? `€${lead.value}` : "-"}
