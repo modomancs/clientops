@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { authOptions } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import CreateLeadForm from "@/components/create-lead-form";
 
 type Lead = {
   id: string;
@@ -41,6 +42,7 @@ export default async function LeadsPage() {
             Manage and track your incoming leads.
           </p>
         </div>
+        <CreateLeadForm />
 
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
           <table className="min-w-full divide-y divide-slate-200">
