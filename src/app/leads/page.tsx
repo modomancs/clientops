@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import CreateLeadForm from "@/components/create-lead-form";
+import { formatLeadStatus, getLeadStatusStyles } from "@/lib/lead-status";
 
 type Lead = {
   id: string;
@@ -89,7 +90,13 @@ export default async function LeadsPage() {
                       {lead.email || "-"}
                     </td>
                     <td className="px-6 py-4 text-sm text-slate-600">
-                      {lead.status}
+                      <span
+                        className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${getLeadStatusStyles(
+                          lead.status,
+                        )}`}
+                      >
+                        {formatLeadStatus(lead.status)}
+                      </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-slate-600">
                       {lead.value ? `€${lead.value}` : "-"}
