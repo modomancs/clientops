@@ -1,8 +1,12 @@
 import { authOptions } from "@/auth";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
+  if (!session) {
+    redirect("/login");
+  }
   return (
     <main className="min-h-screen bg-slate-50 p-6">
       <div className="mx-auto max-w-7x1">
