@@ -1,4 +1,5 @@
 import { formatLeadStatus, getLeadStatusStyles } from "@/lib/lead-status";
+import LeadStatusForm from "@/components/lead-status-form";
 
 type Lead = {
   id: string;
@@ -76,6 +77,7 @@ export default function LeadsKanbanBoard({
                     <p className="mt-3 text-sm font-medium text-slate-700">
                       {lead.value ? `€${lead.value}` : "No value"}
                     </p>
+                    <LeadStatusForm leadId={lead.id} currentStatus={lead.status} />
                   </div>
                 ))
               )}
