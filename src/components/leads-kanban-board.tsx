@@ -78,9 +78,9 @@ export default function LeadsKanbanBoard({
                       {lead.value ? `€${lead.value}` : "No value"}
                     </p>
                     <LeadStatusSelect
-  leadId={lead.id}
-  currentStatus={lead.status}
-/>
+                    leadId={lead.id}
+                     currentStatus={lead.status}
+                    />
                   </div>
                 ))
               )}
