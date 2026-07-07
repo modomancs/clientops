@@ -4,6 +4,7 @@ import { authOptions } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import CreateLeadForm from "@/components/create-lead-form";
 import { formatLeadStatus, getLeadStatusStyles } from "@/lib/lead-status";
+import LeadsKanbanBoard from "@/components/leads-kanban-board";
 
 type Lead = {
   id: string;
@@ -43,6 +44,12 @@ export default async function LeadsPage() {
           </p>
         </div>
         <CreateLeadForm />
+        <div className="mb-6">
+          <h2 className="mb-3 text-x1 font-semibold text-slate-900">
+            Pipeline Board
+          </h2>
+          <LeadsKanbanBoard leads={leads}/>
+        </div>
 
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
           <table className="min-w-full divide-y divide-slate-200">
